@@ -107,14 +107,14 @@ impl World {
     where
         S: System,
     {
-        let system = S::new(&self.component_data);
+        let system = S::new(&self.component_data, &self.type_map);
         self.system.register(system);
     }
 
     #[inline]
     pub fn run(&mut self) {
         loop {
-            self.system.run();
+            self.system.run(&self.entity);
         }
     }
 }

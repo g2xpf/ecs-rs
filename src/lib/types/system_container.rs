@@ -1,4 +1,4 @@
-use crate::types::System;
+use crate::types::{Entity, System};
 
 pub struct SystemContainer(Vec<Box<System>>);
 
@@ -17,9 +17,9 @@ impl SystemContainer {
     }
 
     #[inline]
-    pub fn run(&mut self) {
+    pub fn run(&mut self, entity: &Entity) {
         for system in self.0.iter_mut() {
-            system.run();
+            system.run(entity);
         }
     }
 }
