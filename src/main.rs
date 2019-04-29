@@ -49,6 +49,16 @@ impl_system_for! (PrintSystem2 {
     }
 });
 
+impl_system_for! (OperateGravity {
+    fn run(point: CD<Point>, me: CD<Me>) {
+        println!("-- Begin PrintSystem2 -------------------");
+        for (point, me) in point.iter().zip(me.iter()) {
+            println!("(point, me): ({:?}, {:?})", point, me);
+        }
+        println!("-- End PrintSystem2 -------------------");
+    }
+});
+
 fn main() {
     let mut world = World::new();
     world.register_component::<Point>();
@@ -69,12 +79,6 @@ fn main() {
     world.register_system::<NoneSystem>();
     world.register_system::<PrintSystem>();
     world.register_system::<PrintSystem2>();
-
-    println!("{:?}", world.get_type_map());
-    println!("{:?}", world.get_entity_ref());
-    println!("{:?}", world.get_component_data_ref::<Point>());
-    println!("{:?}", world.get_component_data_mut::<Me>());
-    println!("{:?}", world.get_global_resource_ref::<Gravity>());
 
     world.run();
 }

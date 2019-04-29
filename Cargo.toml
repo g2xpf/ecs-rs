@@ -4,4 +4,12 @@ version = "0.1.0"
 authors = ["g2_xpf <nameko.jack@gmail.com>"]
 edition = "2018"
 
+[[bin]]
+name = "f-colon"
+path = "src/main.rs"
+
+[lib]
+name = "ecs_rs"
+path = "src/lib/lib.rs"
+
 [dependencies]
