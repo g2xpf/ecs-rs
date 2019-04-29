@@ -8,16 +8,6 @@ impl<R> ComponentVector<R> {
     pub fn new() -> Self {
         ComponentVector(LazyVector::new())
     }
-
-    #[inline]
-    fn get(&self, index: usize) -> &Option<Box<R>> {
-        &(***self)[index]
-    }
-
-    #[inline]
-    fn get_mut(&mut self, index: usize) -> &mut Option<Box<R>> {
-        &mut (***self)[index]
-    }
 }
 
 impl<R> Deref for ComponentVector<R> {
