@@ -10,6 +10,7 @@ pub struct EntityBuilder<'a> {
 }
 
 impl<'a> EntityBuilder<'a> {
+    #[inline]
     pub fn new(
         key: usize,
         component_mask: &'a mut ComponentMask,
@@ -24,6 +25,7 @@ impl<'a> EntityBuilder<'a> {
         }
     }
 
+    #[inline]
     pub fn push<R: Resource>(&mut self, r: R) -> &mut Self {
         let type_id = TypeId::of::<R>();
         let new_mask = self.type_map.get(&type_id).unwrap();

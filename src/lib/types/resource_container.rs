@@ -13,6 +13,7 @@ impl<'a, R> ResourceContainer<'a, MutGR<'a, R>> for Rc<RefCell<Box<Resource>>>
 where
     R: Resource,
 {
+    #[inline]
     fn to_container(&'a self) -> MutGR<'a, R> {
         let borrow = self.borrow_mut();
         MutGR(RefMut::map(borrow, |borrow| {
@@ -25,6 +26,7 @@ impl<'a, R> ResourceContainer<'a, GR<'a, R>> for Rc<RefCell<Box<Resource>>>
 where
     R: Resource,
 {
+    #[inline]
     fn to_container(&'a self) -> GR<'a, R> {
         let borrow = self.borrow();
         GR(Ref::map(borrow, |borrow| {
@@ -37,6 +39,7 @@ impl<'a, R> ResourceContainer<'a, MutCD<'a, R>> for Rc<RefCell<Box<Resource>>>
 where
     R: Resource,
 {
+    #[inline]
     fn to_container(&'a self) -> MutCD<'a, R> {
         let borrow = self.borrow_mut();
         MutCD(RefMut::map(borrow, |borrow| {
@@ -49,6 +52,7 @@ impl<'a, R> ResourceContainer<'a, CD<'a, R>> for Rc<RefCell<Box<Resource>>>
 where
     R: Resource,
 {
+    #[inline]
     fn to_container(&'a self) -> CD<'a, R> {
         let borrow = self.borrow();
         CD(Ref::map(borrow, |borrow| {

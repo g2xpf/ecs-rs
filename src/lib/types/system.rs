@@ -17,12 +17,14 @@ macro_rules! impl_system_for {
         }
 
         impl $crate::types::System for $system {
+            #[inline]
             fn new(component_data: &$crate::types::ComponentData) -> Self {
                 $system {
                     name: stringify!($system),
                 }
             }
 
+            #[inline]
             fn run(&self) {
                 $body
             }
@@ -38,6 +40,7 @@ macro_rules! impl_system_for {
         }
 
         impl $crate::types::System for $system {
+            #[inline]
             fn new<'a>(component_data: &$crate::types::ComponentData) -> $system {
                 $system {
                     name: stringify!($system),
@@ -45,6 +48,7 @@ macro_rules! impl_system_for {
                 }
             }
 
+            #[inline]
             fn run(&self) {
                 let $values0 = &self.cache;
                 let $values0: $container0<'_, $args0> = $values0.to_container();
@@ -62,6 +66,7 @@ macro_rules! impl_system_for {
         }
 
         impl $crate::types::System for $system {
+            #[inline]
             fn new<'a>(component_data: &$crate::types::ComponentData) -> $system {
                 $system {
                     name: stringify!($system),
@@ -70,6 +75,7 @@ macro_rules! impl_system_for {
                 }
             }
 
+            #[inline]
             fn run(&self) {
                 let ($values0, $($values),+) = &self.cache;
                 let ($values0, $($values),+): ($container0<'_, $args0>, $($container<'_, $args>),+) = ($values0.to_container(), $($values.to_container()),+);

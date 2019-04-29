@@ -19,6 +19,7 @@ pub struct World {
 }
 
 impl World {
+    #[inline]
     pub fn new() -> Self {
         World {
             mask_counter: 1,
@@ -30,6 +31,7 @@ impl World {
         }
     }
 
+    #[inline]
     pub fn register_component<R: Resource>(&mut self) {
         let type_id = TypeId::of::<R>();
         self.type_map.insert(type_id, self.mask_counter);
@@ -40,6 +42,7 @@ impl World {
         self.mask_counter <<= 1;
     }
 
+    #[inline]
     pub fn push_global_resource<R: Resource>(&mut self, global_resource: R) {
         let type_id = TypeId::of::<R>();
         self.type_map.insert(type_id, self.mask_counter);
@@ -48,6 +51,7 @@ impl World {
         self.mask_counter <<= 1;
     }
 
+    #[inline]
     pub fn entry_entity(&mut self) -> EntityBuilder {
         let (key, component_mask) = self.entity.entry_mut().unwrap();
         EntityBuilder::new(
@@ -58,14 +62,17 @@ impl World {
         )
     }
 
+    #[inline]
     pub fn get_component_data_ref<R: Resource>(&self) -> Ref<ComponentVector<R>> {
         self.component_data.to_ref()
     }
 
+    #[inline]
     pub fn get_component_data_mut<R: Resource>(&mut self) -> RefMut<ComponentVector<R>> {
         self.component_data.to_mut()
     }
 
+    #[inline]
     pub fn get_global_resource_ref<R: Resource>(&self) -> Ref<R> {
         let b = self
             .global_resource
@@ -75,6 +82,7 @@ impl World {
         Ref::map(b, |b| b.downcast_ref::<R>().unwrap())
     }
 
+    #[inline]
     pub fn get_global_resource_mut<R: Resource>(&mut self) -> RefMut<R> {
         let b = self
             .global_resource
@@ -84,14 +92,17 @@ impl World {
         RefMut::map(b, |b| b.downcast_mut::<R>().unwrap())
     }
 
+    #[inline]
     pub fn get_entity_ref(&self) -> &Entity {
         &self.entity
     }
 
+    #[inline]
     pub fn get_type_map(&self) -> &TypeMap {
         &self.type_map
     }
 
+    #[inline]
     pub fn register_system<S: 'static>(&mut self)
     where
         S: System,
@@ -100,6 +111,7 @@ impl World {
         self.system.register(system);
     }
 
+    #[inline]
     pub fn run(&mut self) {
         loop {
             self.system.run();

@@ -18,6 +18,7 @@ where
 {
     type Target = RefMut<'a, R>;
 
+    #[inline]
     fn deref(&self) -> &Self::Target {
         &self.0
     }
@@ -27,6 +28,7 @@ impl<'a, R> DerefMut for MutGR<'a, R>
 where
     R: Resource,
 {
+    #[inline]
     fn deref_mut(&mut self) -> &mut Self::Target {
         &mut self.0
     }
@@ -38,6 +40,7 @@ where
 {
     type Target = Ref<'a, R>;
 
+    #[inline]
     fn deref(&self) -> &Self::Target {
         &self.0
     }
@@ -47,6 +50,7 @@ impl<'a, R> DerefMut for GR<'a, R>
 where
     R: Resource,
 {
+    #[inline]
     fn deref_mut(&mut self) -> &mut Self::Target {
         &mut self.0
     }
@@ -58,6 +62,7 @@ where
 {
     type Target = RefMut<'a, ComponentVector<R>>;
 
+    #[inline]
     fn deref(&self) -> &Self::Target {
         &self.0
     }
@@ -67,6 +72,7 @@ impl<'a, R> DerefMut for MutCD<'a, R>
 where
     R: Resource,
 {
+    #[inline]
     fn deref_mut(&mut self) -> &mut Self::Target {
         &mut self.0
     }
@@ -78,6 +84,7 @@ where
 {
     type Target = Ref<'a, ComponentVector<R>>;
 
+    #[inline]
     fn deref(&self) -> &Self::Target {
         &self.0
     }
@@ -87,6 +94,7 @@ impl<'a, R> DerefMut for CD<'a, R>
 where
     R: Resource,
 {
+    #[inline]
     fn deref_mut(&mut self) -> &mut Self::Target {
         &mut self.0
     }
