@@ -1,4 +1,3 @@
-pub mod alias;
 pub mod component;
 pub mod component_data;
 pub mod component_vector;
@@ -7,11 +6,11 @@ pub mod entity_builder;
 pub mod global_resource;
 pub mod inner_type;
 pub mod resource_container;
+pub mod resource_wrapper;
 pub mod system;
 pub mod system_container;
 pub mod type_map;
 
-pub use alias::{MutCD, MutGR, CD, GR};
 pub use component::ComponentMask;
 pub use component_data::ComponentData;
 pub use component_vector::ComponentVector;
@@ -20,6 +19,7 @@ pub use entity_builder::EntityBuilder;
 pub use global_resource::GlobalResource;
 pub use inner_type::InnerType;
 pub use resource_container::ResourceContainer;
+pub use resource_wrapper::{MutCD, MutGR, CD, GR};
 pub use system::System;
 pub use system_container::SystemContainer;
 pub use type_map::TypeMap;
