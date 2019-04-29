@@ -1,7 +1,7 @@
 #[macro_use]
 extern crate ecs_rs;
 
-use ecs_rs::types::{ResourceContainer, CD};
+use ecs_rs::types::CD;
 use ecs_rs::World;
 
 #[derive(Debug)]

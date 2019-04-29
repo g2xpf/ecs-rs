@@ -51,7 +51,7 @@ macro_rules! impl_system_for {
             #[inline]
             fn run(&self) {
                 let $values0 = &self.cache;
-                let $values0: $container0<'_, $args0> = $values0.to_container();
+                let $values0: $container0<'_, $args0> = $crate::types::ResourceContainer::<'_, $container0<'_, $args0>>::to_container($values0);
                 $body
             }
         }
@@ -78,7 +78,9 @@ macro_rules! impl_system_for {
             #[inline]
             fn run(&self) {
                 let ($values0, $($values),+) = &self.cache;
-                let ($values0, $($values),+): ($container0<'_, $args0>, $($container<'_, $args>),+) = ($values0.to_container(), $($values.to_container()),+);
+                let ($values0, $($values),+): ($container0<'_, $args0>, $($container<'_, $args>),+) =
+                                                ($crate::types::ResourceContainer::<'_, $container0<'_, $args0>>::to_container($values0),
+                                                $($crate::types::ResourceContainer::<'_, $container<'_, $args>>::to_container($values)),+);
                 $body
             }
         }
