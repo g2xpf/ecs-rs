@@ -99,4 +99,10 @@ impl World {
         let system = S::new(&self.component_data);
         self.system.register(system);
     }
+
+    pub fn run(&mut self) {
+        loop {
+            self.system.run();
+        }
+    }
 }

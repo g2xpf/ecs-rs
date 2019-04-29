@@ -24,18 +24,28 @@ struct Gravity {
 
 impl_system_for! (NoneSystem {
     fn run() {
+        println!("-- Begin NoneSystem ---------------------");
+        println!("-- End NoneSystem ---------------------");
     }
 });
 
 impl_system_for! (PrintSystem {
-    fn run(p: CD<Point>) {
-        println!("p: {:?}", p);
+    fn run(point: CD<Point>) {
+        println!("-- Begin PrintSystem --------------------");
+        for point in point.iter() {
+            println!("point: {:?}", point);
+        }
+        println!("-- End PrintSystem --------------------");
     }
 });
 
 impl_system_for! (PrintSystem2 {
-    fn run(p: CD<Point>, q: CD<Me>) {
-        println!("(p, q): ({:?}, {:?})", p, q);
+    fn run(point: CD<Point>, me: CD<Me>) {
+        println!("-- Begin PrintSystem2 -------------------");
+        for (point, me) in point.iter().zip(me.iter()) {
+            println!("(point, me): ({:?}, {:?})", point, me);
+        }
+        println!("-- End PrintSystem2 -------------------");
     }
 });
 
@@ -65,4 +75,6 @@ fn main() {
     println!("{:?}", world.get_component_data_ref::<Point>());
     println!("{:?}", world.get_component_data_mut::<Me>());
     println!("{:?}", world.get_global_resource_ref::<Gravity>());
+
+    world.run();
 }

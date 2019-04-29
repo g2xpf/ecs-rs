@@ -14,5 +14,9 @@ impl SystemContainer {
         self.0.push(Box::new(system) as Box<dyn System>);
     }
 
-    pub fn run(&mut self) {}
+    pub fn run(&mut self) {
+        for system in self.0.iter_mut() {
+            system.run();
+        }
+    }
 }
