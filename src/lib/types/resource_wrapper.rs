@@ -1,16 +1,63 @@
 use crate::data_types::Resource;
-use crate::types::ComponentVector;
+use crate::types::{ComponentMask, ComponentVector};
 use std::cell::{Ref, RefMut};
 use std::ops::{Deref, DerefMut};
 
 #[derive(Debug)]
-pub struct MutGR<'a, R>(pub RefMut<'a, R>);
+pub struct MutGR<'a, R> {
+    pub component_data: RefMut<'a, R>,
+}
 #[derive(Debug)]
-pub struct GR<'a, R>(pub Ref<'a, R>);
+pub struct GR<'a, R> {
+    pub component_data: Ref<'a, R>,
+}
 #[derive(Debug)]
-pub struct MutCD<'a, R>(pub RefMut<'a, ComponentVector<R>>);
+pub struct MutCD<'a, R> {
+    pub component_data: RefMut<'a, ComponentVector<R>>,
+    pub component_mask: ComponentMask,
+}
 #[derive(Debug)]
-pub struct CD<'a, R>(pub Ref<'a, ComponentVector<R>>);
+pub struct CD<'a, R> {
+    pub component_data: Ref<'a, ComponentVector<R>>,
+    pub component_mask: ComponentMask,
+}
+
+macro_rules! impl_gr_new {
+    ($resource:ident, $type:ident, $component_data:ident, $target:ty) => {
+        impl<'a, R> $type<'a, R>
+        where
+            R: Resource,
+        {
+            pub fn new(component_data: $component_data<'a, $target>) -> Self {
+                $type { component_data }
+            }
+        }
+    };
+}
+
+macro_rules! impl_cd_new {
+    ($resource:ident, $type:ident, $component_data:ident, $target:ty) => {
+        impl<'a, R> $type<'a, R>
+        where
+            R: Resource,
+        {
+            pub fn new(
+                component_data: $component_data<'a, $target>,
+                component_mask: ComponentMask,
+            ) -> Self {
+                $type {
+                    component_data,
+                    component_mask,
+                }
+            }
+        }
+    };
+}
+
+impl_gr_new!(R, MutGR, RefMut, R);
+impl_gr_new!(R, GR, Ref, R);
+impl_cd_new!(R, MutCD, RefMut, ComponentVector<R>);
+impl_cd_new!(R, CD, Ref, ComponentVector<R>);
 
 impl<'a, R> Deref for MutGR<'a, R>
 where
@@ -20,7 +67,7 @@ where
 
     #[inline]
     fn deref(&self) -> &Self::Target {
-        &self.0
+        &self.component_data
     }
 }
 
@@ -30,7 +77,7 @@ where
 {
     #[inline]
     fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
+        &mut self.component_data
     }
 }
 
@@ -42,7 +89,7 @@ where
 
     #[inline]
     fn deref(&self) -> &Self::Target {
-        &self.0
+        &self.component_data
     }
 }
 
@@ -52,7 +99,7 @@ where
 {
     #[inline]
     fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
+        &mut self.component_data
     }
 }
 
@@ -64,7 +111,7 @@ where
 
     #[inline]
     fn deref(&self) -> &Self::Target {
-        &self.0
+        &self.component_data
     }
 }
 
@@ -74,7 +121,7 @@ where
 {
     #[inline]
     fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
+        &mut self.component_data
     }
 }
 
@@ -86,7 +133,7 @@ where
 
     #[inline]
     fn deref(&self) -> &Self::Target {
-        &self.0
+        &self.component_data
     }
 }
 
@@ -96,6 +143,6 @@ where
 {
     #[inline]
     fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
+        &mut self.component_data
     }
 }
