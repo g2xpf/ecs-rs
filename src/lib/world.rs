@@ -1,12 +1,11 @@
 use crate::data_types::Resource;
 use crate::types::{
-    ComponentData, ComponentMask, ComponentVector, Entity, EntityBuilder, GlobalResource, System,
-    SystemContainer, TypeMap,
+    ComponentData, ComponentMask, ComponentVector, Entity, EntityBuilder, GlobalResource,
+    ResourceBorrower, System, SystemContainer, TypeMap,
 };
 use std::any::TypeId;
 use std::cell::RefCell;
 use std::cell::{Ref, RefMut};
-use std::collections::HashMap;
 use std::rc::Rc;
 
 pub struct World {
@@ -23,10 +22,10 @@ impl World {
     pub fn new() -> Self {
         World {
             mask_counter: 1,
-            type_map: HashMap::new(),
+            type_map: TypeMap::new(),
             entity: Entity::new(),
             component_data: ComponentData::new(),
-            global_resource: HashMap::new(),
+            global_resource: GlobalResource::new(),
             system: SystemContainer::new(),
         }
     }
@@ -103,11 +102,17 @@ impl World {
     }
 
     #[inline]
+    fn make_resource_borrower<'a>(&'a self) -> ResourceBorrower<'a> {
+        ResourceBorrower::new(&self.component_data, &self.global_resource, &self.type_map)
+    }
+
+    #[inline]
     pub fn register_system<S: 'static>(&mut self)
     where
         S: System,
     {
-        let system = S::new(&self.component_data, &self.type_map);
+        let resource_borrower = self.make_resource_borrower();
+        let system = S::new(&resource_borrower);
         self.system.register(system);
     }
 

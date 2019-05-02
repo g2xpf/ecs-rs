@@ -1,7 +1,7 @@
-use super::{ComponentData, Entity, TypeMap};
+use super::{Entity, ResourceBorrower};
 
 pub trait System {
-    fn new<'a, 'b: 'a>(component_data: &ComponentData, type_map: &TypeMap) -> Self
+    fn new<'a, 'b: 'a>(resource_borrower: &ResourceBorrower) -> Self
     where
         Self: Sized;
     fn run(&self, entity: &Entity);
@@ -17,7 +17,7 @@ macro_rules! impl_system_for {
         }
 
         impl $crate::types::System for $system {
-            fn new<'a, 'b: 'a>(component_data: &$crate::types::ComponentData, type_map: &$crate::types::TypeMap) -> Self {
+            fn new<'a, 'b: 'a>(resource_borrower: &ResourceBorrower) -> Self {
                 $system {
                     name: stringify!($system),
                 }
@@ -38,10 +38,10 @@ macro_rules! impl_system_for {
         }
 
         impl $crate::types::System for $system {
-            fn new<'a, 'b: 'a>(component_data: &$crate::types::ComponentData, type_map: &$crate::types::TypeMap) -> $system {
+            fn new<'a, 'b: 'a>(resource_borrower: &ResourceBorrower) -> $system {
                 $system {
                     name: stringify!($system),
-                    cache: (component_data.clone_component_data(&<$container0<'a, 'b, $args0> as $crate::types::InnerType<'a, 'b>>::to_inner_type()), *type_map.get(&std::any::TypeId::of::<$args0>()).unwrap()),
+                    cache: (ResourceProvider::<$container0<'_, '_, $args0>>::provide(resource_borrower)),
                 }
             }
 
@@ -62,11 +62,11 @@ macro_rules! impl_system_for {
         }
 
         impl $crate::types::System for $system {
-            fn new<'a, 'b: 'a>(component_data: &$crate::types::ComponentData, type_map: &$crate::types::TypeMap) -> $system {
+            fn new<'a, 'b: 'a>(resource_borrower: &ResourceBorrower) -> $system {
                 $system {
                     name: stringify!($system),
-                    cache: ((component_data.clone_component_data(&<$container0<'a, 'b, $args0> as $crate::types::InnerType<'a, 'b>>::to_inner_type()), *type_map.get(&std::any::TypeId::of::<$args0>()).unwrap()),
-                          $((component_data.clone_component_data(&<$container <'a, 'b, $args > as $crate::types::InnerType<'a, 'b>>::to_inner_type()), *type_map.get(&std::any::TypeId::of::<$args >()).unwrap())),+),
+                    cache: ((ResourceProvider::<$container0<'_, '_, $args0>>::provide(resource_borrower)),
+                          $((ResourceProvider::<$container <'_, '_, $args >>::provide(resource_borrower))),+),
                 }
             }
 
