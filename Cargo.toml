@@ -13,4 +13,3 @@ name = "ecs_rs"
 path = "src/lib/lib.rs"
 
 [dependencies]
-glium = "0.23.0"
