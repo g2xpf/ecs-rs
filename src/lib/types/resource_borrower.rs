@@ -34,7 +34,7 @@ where
     #[inline]
     fn provide(&self) -> (Rc<RefCell<Box<Resource>>>, ComponentMask) {
         let type_id = TypeId::of::<R>();
-        let mask = *self.type_map.get(&type_id).unwrap();
+        let mask = *self.type_map.get(&type_id);
         (self.global_resource.clone_global_resource(&type_id), mask)
     }
 }
@@ -46,7 +46,7 @@ where
     #[inline]
     fn provide(&self) -> (Rc<RefCell<Box<Resource>>>, ComponentMask) {
         let type_id = TypeId::of::<R>();
-        let mask = *self.type_map.get(&type_id).unwrap();
+        let mask = *self.type_map.get(&type_id);
         (self.global_resource.clone_global_resource(&type_id), mask)
     }
 }
@@ -58,7 +58,7 @@ where
     #[inline]
     fn provide(&self) -> (Rc<RefCell<Box<Resource>>>, ComponentMask) {
         let type_id = TypeId::of::<R>();
-        let mask = *self.type_map.get(&type_id).unwrap();
+        let mask = *self.type_map.get(&type_id);
         (self.component_data.clone_component_data(&type_id), mask)
     }
 }
@@ -70,7 +70,7 @@ where
     #[inline]
     fn provide(&self) -> (Rc<RefCell<Box<Resource>>>, ComponentMask) {
         let type_id = TypeId::of::<R>();
-        let mask = *self.type_map.get(&type_id).unwrap();
+        let mask = *self.type_map.get(&type_id);
         (self.component_data.clone_component_data(&type_id), mask)
     }
 }
