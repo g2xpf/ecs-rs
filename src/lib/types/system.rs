@@ -1,7 +1,7 @@
 use super::{ComponentData, Entity, TypeMap};
 
 pub trait System {
-    fn new<'a>(component_data: &ComponentData, type_map: &TypeMap) -> Self
+    fn new<'a, 'b: 'a>(component_data: &ComponentData, type_map: &TypeMap) -> Self
     where
         Self: Sized;
     fn run(&self, entity: &Entity);
@@ -17,7 +17,7 @@ macro_rules! impl_system_for {
         }
 
         impl $crate::types::System for $system {
-            fn new(component_data: &$crate::types::ComponentData, type_map: &$crate::types::TypeMap) -> Self {
+            fn new<'a, 'b: 'a>(component_data: &$crate::types::ComponentData, type_map: &$crate::types::TypeMap) -> Self {
                 $system {
                     name: stringify!($system),
                 }
@@ -38,16 +38,16 @@ macro_rules! impl_system_for {
         }
 
         impl $crate::types::System for $system {
-            fn new<'a>(component_data: &$crate::types::ComponentData, type_map: &$crate::types::TypeMap) -> $system {
+            fn new<'a, 'b: 'a>(component_data: &$crate::types::ComponentData, type_map: &$crate::types::TypeMap) -> $system {
                 $system {
                     name: stringify!($system),
-                    cache: (component_data.clone_component_data(&<$container0<'a, $args0> as $crate::types::InnerType<'a>>::to_inner_type()), *type_map.get(&std::any::TypeId::of::<$args0>()).unwrap()),
+                    cache: (component_data.clone_component_data(&<$container0<'a, 'b, $args0> as $crate::types::InnerType<'a, 'b>>::to_inner_type()), *type_map.get(&std::any::TypeId::of::<$args0>()).unwrap()),
                 }
             }
 
             fn run(&self, entity: &$crate::types::Entity) {
                 let $values0 = &self.cache;
-                let $values0: $container0<'_, $args0> = $crate::types::ResourceContainer::<'_, $container0<'_, $args0>>::to_container($values0, entity);
+                let $values0: $container0<'_, '_, $args0> = $crate::types::ResourceContainer::<'_, '_, $container0<'_, '_, $args0>>::to_container($values0, entity);
                 $body
             }
         }
@@ -62,19 +62,19 @@ macro_rules! impl_system_for {
         }
 
         impl $crate::types::System for $system {
-            fn new<'a>(component_data: &$crate::types::ComponentData, type_map: &$crate::types::TypeMap) -> $system {
+            fn new<'a, 'b: 'a>(component_data: &$crate::types::ComponentData, type_map: &$crate::types::TypeMap) -> $system {
                 $system {
                     name: stringify!($system),
-                    cache: ((component_data.clone_component_data(&<$container0<'a, $args0> as $crate::types::InnerType<'a>>::to_inner_type()), *type_map.get(&std::any::TypeId::of::<$args0>()).unwrap()),
-                          $((component_data.clone_component_data(&<$container <'a, $args > as $crate::types::InnerType<'a>>::to_inner_type()), *type_map.get(&std::any::TypeId::of::<$args >()).unwrap())),+),
+                    cache: ((component_data.clone_component_data(&<$container0<'a, 'b, $args0> as $crate::types::InnerType<'a, 'b>>::to_inner_type()), *type_map.get(&std::any::TypeId::of::<$args0>()).unwrap()),
+                          $((component_data.clone_component_data(&<$container <'a, 'b, $args > as $crate::types::InnerType<'a, 'b>>::to_inner_type()), *type_map.get(&std::any::TypeId::of::<$args >()).unwrap())),+),
                 }
             }
 
             fn run(&self, entity: &$crate::types::Entity) {
                 let ($values0, $($values),+) = &self.cache;
-                let ($values0, $($values),+): ($container0<'_, $args0>, $($container<'_, $args>),+) =
-                                                ($crate::types::ResourceContainer::<'_, $container0<'_, $args0>>::to_container($values0, entity),
-                                                $($crate::types::ResourceContainer::<'_, $container<'_, $args >>::to_container($values , entity)),+);
+                let ($values0, $($values),+): ($container0<'_, '_, $args0>, $($container<'_, '_, $args>),+) =
+                                                ($crate::types::ResourceContainer::<'_, '_, $container0<'_, '_, $args0>>::to_container($values0, entity),
+                                                $($crate::types::ResourceContainer::<'_, '_, $container<'_, '_, $args >>::to_container($values , entity)),+);
                 $body
             }
         }

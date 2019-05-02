@@ -1,7 +1,7 @@
 #[macro_use]
 extern crate ecs_rs;
 
-use ecs_rs::types::CD;
+use ecs_rs::types::*;
 use ecs_rs::World;
 
 #[derive(Debug)]
@@ -32,7 +32,7 @@ impl_system_for! (NoneSystem {
 impl_system_for! (PrintSystem {
     fn run(point: CD<Point>) {
         println!("-- Begin PrintSystem --------------------");
-        for point in point.iter() {
+        for point in point.dispatch() {
             println!("point: {:?}", point);
         }
         println!("-- End PrintSystem --------------------");
@@ -42,7 +42,7 @@ impl_system_for! (PrintSystem {
 impl_system_for! (PrintSystem2 {
     fn run(point: CD<Point>, me: CD<Me>) {
         println!("-- Begin PrintSystem2 -------------------");
-        for (point, me) in point.iter().zip(me.iter()) {
+        for (point, me) in (point, me).dispatch() {
             println!("(point, me): ({:?}, {:?})", point, me);
         }
         println!("-- End PrintSystem2 -------------------");
@@ -50,10 +50,11 @@ impl_system_for! (PrintSystem2 {
 });
 
 impl_system_for! (OperateGravity {
-    fn run(point: CD<Point>, me: CD<Me>) {
+    fn run(point: MutCD<Point>, gravity: GR<Gravity>) {
         println!("-- Begin PrintSystem2 -------------------");
-        for (point, me) in point.iter().zip(me.iter()) {
-            println!("(point, me): ({:?}, {:?})", point, me);
+        for point in point.dispatch() {
+            point.x += gravity.x;
+            point.y += gravity.y;
         }
         println!("-- End PrintSystem2 -------------------");
     }
@@ -72,7 +73,7 @@ fn main() {
             name: "baba",
         });
 
-    world.push_global_resource(Gravity { x: 0.0, y: 9.8 });
+    world.push_global_resource(Gravity { x: 0.0, y: -9.8 });
 
     world.entry_entity().push(Point { x: 2.0, y: 4.0 });
 
