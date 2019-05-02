@@ -1,11 +1,11 @@
 use crate::types::{ComponentDispatcher, IterableContainer, Pointer};
 use std::vec::IntoIter;
 
-pub trait IntoDispatcher<'a, I, T> {
+pub trait Dispatcher<'a, I, T> {
     fn dispatch(&self) -> ComponentDispatcher<'a, I, T>;
 }
 
-impl<'a, 'b, T> IntoDispatcher<'a, IntoIter<&'b usize>, T::Ptr> for T
+impl<'a, 'b, T> Dispatcher<'a, IntoIter<&'b usize>, T::Ptr> for T
 where
     T: IterableContainer<'b>,
     <T as IterableContainer<'b>>::Ptr: Pointer<'a, <T as IterableContainer<'b>>::Ptr>,
