@@ -1,12 +1,12 @@
 use std::any::{Any, TypeId};
 
-pub trait Resource: Any + 'static + Send + Sync {
+pub trait Resource: Any + 'static {
     fn type_id(&self) -> TypeId;
 }
 
 impl<T> Resource for T
 where
-    T: 'static + ?Sized + Send + Sync,
+    T: 'static + ?Sized,
 {
     #[inline]
     fn type_id(&self) -> TypeId {
