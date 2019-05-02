@@ -13,6 +13,7 @@ pub struct ResourceBorrower<'a> {
 }
 
 impl<'a> ResourceBorrower<'a> {
+    #[inline]
     pub fn new(
         component_data: &'a ComponentData,
         global_resource: &'a GlobalResource,
@@ -30,6 +31,7 @@ impl<'a, 'b, R> ResourceProvider<MutGR<'a, 'b, R>> for ResourceBorrower<'a>
 where
     R: Resource,
 {
+    #[inline]
     fn provide(&self) -> (Rc<RefCell<Box<Resource>>>, ComponentMask) {
         let type_id = TypeId::of::<R>();
         let mask = *self.type_map.get(&type_id).unwrap();
@@ -41,6 +43,7 @@ impl<'a, 'b, R> ResourceProvider<GR<'a, 'b, R>> for ResourceBorrower<'a>
 where
     R: Resource,
 {
+    #[inline]
     fn provide(&self) -> (Rc<RefCell<Box<Resource>>>, ComponentMask) {
         let type_id = TypeId::of::<R>();
         let mask = *self.type_map.get(&type_id).unwrap();
@@ -52,6 +55,7 @@ impl<'a, 'b, R> ResourceProvider<MutCD<'a, 'b, R>> for ResourceBorrower<'a>
 where
     R: Resource,
 {
+    #[inline]
     fn provide(&self) -> (Rc<RefCell<Box<Resource>>>, ComponentMask) {
         let type_id = TypeId::of::<R>();
         let mask = *self.type_map.get(&type_id).unwrap();
@@ -63,6 +67,7 @@ impl<'a, 'b, R> ResourceProvider<CD<'a, 'b, R>> for ResourceBorrower<'a>
 where
     R: Resource,
 {
+    #[inline]
     fn provide(&self) -> (Rc<RefCell<Box<Resource>>>, ComponentMask) {
         let type_id = TypeId::of::<R>();
         let mask = *self.type_map.get(&type_id).unwrap();
