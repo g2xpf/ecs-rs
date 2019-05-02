@@ -80,7 +80,7 @@ impl<'a, 'b, R> Deref for MutGR<'a, 'b, R>
 where
     R: Resource,
 {
-    type Target = RefMut<'a, R>;
+    type Target = R;
 
     #[inline]
     fn deref(&self) -> &Self::Target {
@@ -102,7 +102,7 @@ impl<'a, 'b, R> Deref for GR<'a, 'b, R>
 where
     R: Resource,
 {
-    type Target = Ref<'a, R>;
+    type Target = R;
 
     #[inline]
     fn deref(&self) -> &Self::Target {
@@ -110,15 +110,15 @@ where
     }
 }
 
-impl<'a, 'b, R> DerefMut for GR<'a, 'b, R>
-where
-    R: Resource,
-{
-    #[inline]
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.component_data
-    }
-}
+// impl<'a, 'b, R> DerefMut for GR<'a, 'b, R>
+// where
+//     R: Resource,
+// {
+//     #[inline]
+//     fn deref_mut(&mut self) -> &mut Self::Target {
+//         &mut self.component_data
+//     }
+// }
 
 impl<'a, 'b, R> Deref for MutCD<'a, 'b, R>
 where

@@ -4,7 +4,7 @@ pub trait Pointer<'a, T> {
 }
 
 impl<'a, T: 'a> Pointer<'a, *mut Option<Box<T>>> for *mut Option<Box<T>> {
-    type Target = &'a mut Box<T>;
+    type Target = &'a mut T;
 
     #[inline]
     fn get_ref(&self, count: usize) -> Self::Target {
@@ -13,7 +13,7 @@ impl<'a, T: 'a> Pointer<'a, *mut Option<Box<T>>> for *mut Option<Box<T>> {
 }
 
 impl<'a, T: 'a> Pointer<'a, *const Option<Box<T>>> for *const Option<Box<T>> {
-    type Target = &'a Box<T>;
+    type Target = &'a T;
 
     #[inline]
     fn get_ref(&self, count: usize) -> Self::Target {
