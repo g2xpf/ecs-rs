@@ -17,7 +17,7 @@ macro_rules! impl_system_for {
         }
 
         impl $crate::types::System for $system {
-            fn new<'a, 'b: 'a>(resource_borrower: &ResourceBorrower) -> Self {
+            fn new<'a, 'b: 'a>(resource_borrower: &$crate::types::ResourceBorrower) -> Self {
                 $system {
                     name: stringify!($system),
                 }
@@ -38,10 +38,10 @@ macro_rules! impl_system_for {
         }
 
         impl $crate::types::System for $system {
-            fn new<'a, 'b: 'a>(resource_borrower: &ResourceBorrower) -> $system {
+            fn new<'a, 'b: 'a>(resource_borrower: &$crate::types::ResourceBorrower) -> $system {
                 $system {
                     name: stringify!($system),
-                    cache: (ResourceProvider::<$container0<'_, '_, $args0>>::provide(resource_borrower)),
+                    cache: ($crate::types::ResourceProvider::<$container0<'_, '_, $args0>>::provide(resource_borrower)),
                 }
             }
 
@@ -62,11 +62,11 @@ macro_rules! impl_system_for {
         }
 
         impl $crate::types::System for $system {
-            fn new<'a, 'b: 'a>(resource_borrower: &ResourceBorrower) -> $system {
+            fn new<'a, 'b: 'a>(resource_borrower: &$crate::types::ResourceBorrower) -> $system {
                 $system {
                     name: stringify!($system),
-                    cache: ((ResourceProvider::<$container0<'_, '_, $args0>>::provide(resource_borrower)),
-                          $((ResourceProvider::<$container <'_, '_, $args >>::provide(resource_borrower))),+),
+                    cache: (($crate::types::ResourceProvider::<$container0<'_, '_, $args0>>::provide(resource_borrower)),
+                          $(($crate::types::ResourceProvider::<$container <'_, '_, $args >>::provide(resource_borrower))),+),
                 }
             }
 
