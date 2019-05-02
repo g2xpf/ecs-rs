@@ -119,10 +119,10 @@ impl World {
     #[inline]
     pub fn run(&mut self) {
         loop {
-            let start = std::time::Instant::now();
+            // let start = std::time::Instant::now();
             self.system.run(&self.entity);
-            let end = start.elapsed();
-            println!("{}.{:09}[s]", end.as_secs(), end.subsec_nanos());
+            // let end = start.elapsed();
+            // println!("{}.{:09}[s]", end.as_secs(), end.subsec_nanos());
         }
     }
 }
