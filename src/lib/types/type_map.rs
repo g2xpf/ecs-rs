@@ -1,4 +1,5 @@
 use super::ComponentMask;
+use crate::data_types::DispatchError;
 use std::any::TypeId;
 use std::collections::HashMap;
 
@@ -11,17 +12,17 @@ impl TypeMap {
     }
 
     #[inline]
-    pub fn get(&self, type_id: &TypeId) -> &ComponentMask {
+    pub fn get(&self, type_id: &TypeId) -> Result<&ComponentMask, DispatchError> {
         self.0
             .get(type_id)
-            .unwrap_or_else(|| panic!("Type dispatch failed"))
+            .ok_or(DispatchError("Type dispatch failed"))
     }
 
     #[inline]
-    pub fn get_mut(&mut self, type_id: &TypeId) -> &mut ComponentMask {
+    pub fn get_mut(&mut self, type_id: &TypeId) -> Result<&mut ComponentMask, DispatchError> {
         self.0
             .get_mut(type_id)
-            .unwrap_or_else(|| panic!("Type dispatch failed"))
+            .ok_or(DispatchError("Type dispatch failed"))
     }
 
     #[inline]

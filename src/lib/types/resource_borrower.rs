@@ -34,7 +34,10 @@ where
     #[inline]
     fn provide(&self) -> (Rc<RefCell<Box<Resource>>>, ComponentMask) {
         let type_id = TypeId::of::<R>();
-        let mask = *self.type_map.get(&type_id);
+        let mask = *self
+            .type_map
+            .get(&type_id)
+            .unwrap_or_else(|err| panic!("The type was not registered: {:?}", err));
         (self.global_resource.clone_global_resource(&type_id), mask)
     }
 }
@@ -46,7 +49,10 @@ where
     #[inline]
     fn provide(&self) -> (Rc<RefCell<Box<Resource>>>, ComponentMask) {
         let type_id = TypeId::of::<R>();
-        let mask = *self.type_map.get(&type_id);
+        let mask = *self
+            .type_map
+            .get(&type_id)
+            .unwrap_or_else(|err| panic!("The type was not registered: {:?}", err));
         (self.global_resource.clone_global_resource(&type_id), mask)
     }
 }
@@ -58,7 +64,10 @@ where
     #[inline]
     fn provide(&self) -> (Rc<RefCell<Box<Resource>>>, ComponentMask) {
         let type_id = TypeId::of::<R>();
-        let mask = *self.type_map.get(&type_id);
+        let mask = *self
+            .type_map
+            .get(&type_id)
+            .unwrap_or_else(|err| panic!("The type was not registered: {:?}", err));
         (self.component_data.clone_component_data(&type_id), mask)
     }
 }
@@ -70,7 +79,10 @@ where
     #[inline]
     fn provide(&self) -> (Rc<RefCell<Box<Resource>>>, ComponentMask) {
         let type_id = TypeId::of::<R>();
-        let mask = *self.type_map.get(&type_id);
+        let mask = *self
+            .type_map
+            .get(&type_id)
+            .unwrap_or_else(|err| panic!("The type was not registered: {:?}", err));
         (self.component_data.clone_component_data(&type_id), mask)
     }
 }

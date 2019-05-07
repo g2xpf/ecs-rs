@@ -28,7 +28,10 @@ impl<'a> EntityBuilder<'a> {
     #[inline]
     pub fn push<R: Resource>(&mut self, r: R) -> &mut Self {
         let type_id = TypeId::of::<R>();
-        let new_mask = self.type_map.get(&type_id);
+        let new_mask = self
+            .type_map
+            .get(&type_id)
+            .unwrap_or_else(|err| panic!("Resource pushing failed:\n {:?}", err));
         *self.component_mask |= new_mask;
         {
             let mut component_data = self.component_data.get_mut(&type_id).unwrap().borrow_mut();
